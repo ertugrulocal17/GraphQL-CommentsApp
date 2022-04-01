@@ -1,0 +1,112 @@
+# User
+type User {
+  _id: String!
+  fullName: String!
+  age: Int!
+  profile_photo: String
+  posts: [Post!]!
+  comments: [Comment!]!
+}
+input CreateUserInput {
+  fullName: String!
+  profile_photo: String
+  age: Int!
+}
+input UpdateUserInput {
+  fullName: String
+  profile_photo: String
+  age: Int
+}
+
+# Post
+type Post {
+  _id: ID!
+  title: String!
+  description: String!
+  short_description: String
+  cover: String
+  user: User!
+  comments: [Comment!]!
+}
+input CreatePostInput {
+  title: String!
+  description: String!
+  short_description: String
+  cover: String
+  user: ID!
+}
+input UpdatePostInput {
+  title: String
+  description: String
+  short_description: String
+  cover: String
+  user: ID
+}
+
+# Comment
+type Comment {
+  _id: ID!
+  text: String!
+  user: User!
+  post: Post!
+}
+input CreateCommentInput {
+  text: String!
+  post: ID!
+  user: ID!
+}
+input UpdateCommentInput {
+  text: String
+  post: ID
+  user: ID
+}
+type DeleteAllOutput {
+  count: Int!
+}
+
+#Query
+type Query {
+  users: [User!]!
+  user(id: ID!): User!
+
+  posts: [Post!]!
+  post(id: ID!): Post!
+
+  comments: [Comment!]!
+  comment(id: ID!): Comment!
+}
+type Mutation {
+  #User
+  createUser(data: CreateUserInput!): User!
+  updateUser(id: ID!, data: UpdateUserInput!): User!
+  deleteUser(id: ID!): User!
+  deleteAllUser: DeleteAllOutput!
+  #Post
+  createPost(data: CreatePostInput!): Post!
+  updatePost(id: ID!, data: UpdatePostInput!): Post!
+  deletePost(id: ID!): Post!
+  deleteAllPost: DeleteAllOutput!
+
+  #Comment
+  createComment(data: CreateCommentInput!): Comment!
+  updateComment(id: ID!, data: UpdateCommentInput): Comment!
+  deleteComment(id: ID!): Comment!
+  deleteAllComment: DeleteAllOutput!
+}
+type Subscription {
+  # User
+  userCreated: User!
+  userUpdated: User!
+  userDeleted: User!
+
+  # Post
+  postCreated(user_id: ID): Post!
+  postUpdated: Post!
+  postDeleted: Post!
+  postCount: Int!
+
+  # Comment
+  commentCreated(post_id: ID): Comment!
+  commentUpdated: Comment!
+  commentDeleted: Comment!
+}
