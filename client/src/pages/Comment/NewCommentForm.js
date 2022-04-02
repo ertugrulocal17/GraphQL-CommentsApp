@@ -13,7 +13,7 @@ function NewCommentForm({ post_id }) {
     try {
       await createComment({
         variables: {
-          data: { post_id, ...values },
+          data: { ...values, post: post_id },
         },
       });
       message.success("Comment added!", 3);
@@ -35,7 +35,7 @@ function NewCommentForm({ post_id }) {
           <Col span={10}>
             <Form.Item
               disabled={loading}
-              name="user_id"
+              name="user"
               rules={[{ required: true, message: "Please select user!" }]}
             >
               <Select
@@ -46,7 +46,7 @@ function NewCommentForm({ post_id }) {
               >
                 {users_data &&
                   users_data.users.map((item) => (
-                    <Option key={item.id} value={item.id}>
+                    <Option key={item._id} value={item._id}>
                       {item.fullName}
                     </Option>
                   ))}

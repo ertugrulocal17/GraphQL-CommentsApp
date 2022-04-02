@@ -83,8 +83,9 @@ const Mutation = {
 
     return deletedPost;
   },
-  deleteAllPost: async (_, __, { _db }) => {
+  deleteAllPost: async (_, __, { _db, pubsub }) => {
     const delete_posts = await _db.Post.deleteMany({});
+    pubsub.publish('postCount', { postCount: 0 });
     return {
       count: delete_posts.deletedCount,
     };

@@ -43,9 +43,9 @@ function Home() {
           <List.Item>
             <List.Item.Meta
               avatar={<Avatar src={item.user.profile_photo} />}
-              title={<Link to={`/post/${item.id}`}>{item.title}</Link>}
+              title={<Link to={`/post/${item._id}`}>{item.title}</Link>}
               description={
-                <Link to={`/post/${item.id}`} className={styles.listItem}>
+                <Link to={`/post/${item._id}`} className={styles.listItem}>
                   {item.short_description}
                 </Link>
               }

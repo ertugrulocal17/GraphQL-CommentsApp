@@ -20,7 +20,7 @@ const Subscription = {
         // console.log('payload:', payload);
         // console.log('variables:', variables);
         return variables.user_id
-          ? payload.postCreated.user_id === variables.user_id
+          ? payload.postCreated.user === variables.user_id
           : true;
       }
     ),
@@ -35,7 +35,7 @@ const Subscription = {
     subscribe: async (_, __, { pubsub, _db }) => {
       const postCount = await _db.Post.countDocuments();
       setTimeout(() => {
-        pubsub.publish('postCount', { postCount: db.posts.length });
+        pubsub.publish('postCount', { postCount });
       }, 1000);
       return pubsub.asyncIterator('postCount');
     },
@@ -47,7 +47,7 @@ const Subscription = {
       (_, __, { pubsub }) => pubsub.asyncIterator('commentCreated'),
       (payload, variables) => {
         return variables.post_id
-          ? payload.commentCreated.post_id === variables.post_id
+          ? payload.commentCreated.post === variables.post_id
           : true;
       }
     ),
